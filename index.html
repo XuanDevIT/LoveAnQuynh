@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Love Confession</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url("./backgroud1.jpeg"); /* Thay 'đường_dẫn_đến_hình_ảnh_của_bạn.jpg' bằng đường dẫn thực sự */
+        background-size: cover; /* Đảm bảo hình ảnh phủ kín màn hình */
+        background-position: center; /* Căn giữa hình ảnh */
+      }
+
+      #loveMessage p {
+        font-family: "Great Vibes", cursive; /* Sử dụng phông chữ Great Vibes */
+        text-align: center;
+        width: auto;
+        font-size: 32px; /* Kích thước chữ lớn hơn */
+        color: #f11313; /* Màu sắc dịu dàng */
+        margin: 20px 0; /* Khoảng cách giữa các dòng */
+        text-shadow: 2px 2px 8px rgba(150, 150, 150, 0.7); /* Hiệu ứng bóng mờ cho chữ */
+      }
+
+      /* Kiểu dáng chung cho nút */
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #e91e63;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        outline: none;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #c2185b;
+      }
+
+      /* Định vị nút ở giữa */
+      #loveMessage {
+        text-align: center; /* Căn giữa nội dung bên trong #loveMessage */
+      }
+
+      #loveMessage button {
+        margin-top: 20px; /* Thêm khoảng cách giữa văn bản và nút */
+        display: inline-block; /* Để nút không chiếm toàn bộ chiều rộng */
+      }
+    </style>
+  </head>
+  <body>
+    <button id="startButton">Bắt Đầu</button>
+    <div id="loveMessage"></div>
+    <audio id="myAudio" autoplay>
+      <source src="./Ido.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+    <script>
+      const messages = [
+        "Nhớ lại những ngày thân quen của chúng ta từ thời cấp 2",
+        "nơi mỗi khoảnh khắc chúng ta chia sẻ đều đầy ắp tiếng cười và niềm vui,",
+        "Đến năm cấp 3, khi trái tim non nớt của anh lần đầu mở lời",
+        "dù không nhận được câu trả lời như mong đợi, nhưng anh vẫn trân trọng từng kí ức ấy,",
+        "Và giờ đây, sau bao năm xa cách, khi gặp lại em",
+        "mọi cảm xúc xưa cũ như được khơi dậy mạnh mẽ trong anh,",
+        "Anh nhận ra rằng, dù thời gian trôi qua",
+        "tình cảm anh dành cho em vẫn không hề phai nhạt,",
+        "Em có sẵn lòng cho anh một cơ hội, để chúng ta cùng nhau viết tiếp câu chuyện của mình, với một kết thúc mà lần này, anh hy vọng, sẽ là hạnh phúc?",
+      ];
+
+      let currentIndex = 0;
+
+      function displayNextMessage() {
+        if (currentIndex < messages.length) {
+          const messageContainer = document.getElementById("loveMessage");
+          const newLine = document.createElement("p");
+          newLine.style.opacity = 0;
+          newLine.textContent = messages[currentIndex];
+          messageContainer.appendChild(newLine);
+
+          // Hiệu ứng chữ xuất hiện
+          let opacity = 0;
+          const fadeInInterval = setInterval(() => {
+            opacity += 0.05;
+            newLine.style.opacity = opacity;
+            if (opacity >= 1) clearInterval(fadeInInterval);
+          }, 40); // Tăng tốc độ hiệu ứng xuất hiện
+
+          setTimeout(() => {
+            if (currentIndex < messages.length - 1) {
+              const fadeOutInterval = setInterval(() => {
+                opacity -= 0.05;
+                newLine.style.opacity = opacity;
+                if (opacity <= 0) {
+                  clearInterval(fadeOutInterval);
+                  messageContainer.removeChild(newLine);
+                  currentIndex++;
+                  displayNextMessage();
+                }
+              }, 40); // Tăng tốc độ hiệu ứng biến mất
+            } else {
+              // Hiển thị nút "Tiếp tục" sau dòng cuối
+              const continueButton = document.createElement("button");
+              continueButton.textContent = "Tiếp tục";
+              continueButton.onclick = function () {
+                window.location.href = "./index1.html";
+                // Thêm hành động khi nút "Tiếp tục" được nhấn
+              };
+              messageContainer.appendChild(continueButton);
+            }
+          }, 3000); // Thời gian hiển thị mỗi dòng chỉ còn 2 giây
+        }
+      }
+      document
+        .getElementById("startButton")
+        .addEventListener("click", function () {
+          this.style.display = "none"; // Ẩn nút "Bắt Đầu" sau khi được nhấn
+          displayNextMessage(); // Bắt đầu hiển thị các dòng chữ
+          var audio = document.getElementById("myAudio");
+          audio.play();
+        });
+    </script>
+  </body>
+</html>
